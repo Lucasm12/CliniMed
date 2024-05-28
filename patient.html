@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard</title>
+    <link rel="stylesheet" href="styles-dashboard.css">
+    <style>
+        .dashboard-section {
+            display: none;
+        }
+        .button {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .notification-message, .patient-education, .support {
+            text-align: left;
+            margin: 10px auto;
+            width: 80%;
+            background-color: #f8f9fa;
+            padding: 10px;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 onclick="showDashboard()">ClineMed Voice</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#" onclick="showSection('scheduled-consultations')">Consultas Agendadas</a></li>
+            <li><a href="#" onclick="showSection('consultation-history')">Histórico de Consultas</a></li>
+            <li><a href="#" onclick="showSection('notifications')">Notificações</a></li>
+            <li><a href="#" onclick="showSection('patient-education')">Educação do Paciente</a></li>
+            <li><a href="#" onclick="showSection('support')">Suporte</a></li>
+        </ul>
+    </nav>
+    <main>
+        <section id="dashboard-content" class="dashboard-section">
+            <h2>Bem-vindo ao ClineMed Voice</h2>
+            <p>Selecione uma opção no menu para continuar.</p>
+        </section>
+
+        <section id="scheduled-consultations" class="dashboard-section">
+            <h2>Consultas Agendadas</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Hora</th>
+                        <th>Médico</th>
+                        <th>Especialidade</th>
+                    </tr>
+                </thead>
+                <tbody id="consultations-table-body">
+                    <tr>
+                        <td>10/06/2024</td>
+                        <td>10:00</td>
+                        <td>Dr. João Silva</td>
+                        <td>Cardiologia</td>
+                    </tr>
+                    <tr>
+                        <td>15/06/2024</td>
+                        <td>11:00</td>
+                        <td>Dra. Maria Oliveira</td>
+                        <td>Dermatologia</td>
+                    </tr>
+                    <tr>
+                        <td>20/06/2024</td>
+                        <td>13:00</td>
+                        <td>Dr. Carlos Santos</td>
+                        <td>Neurologia</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="consultation-history" class="dashboard-section">
+            <h2>Histórico de Consultas</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Hora</th>
+                        <th>Médico</th>
+                        <th>Especialidade</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>01/05/2024</td>
+                        <td>09:00</td>
+                        <td>Dr. João Silva</td>
+                        <td>Cardiologia</td>
+                        <td>Concluída</td>
+                    </tr>
+                    <tr>
+                        <td>10/05/2024</td>
+                        <td>10:00</td>
+                        <td>Dra. Maria Oliveira</td>
+                        <td>Dermatologia</td>
+                        <td>Cancelada</td>
+                    </tr>
+                    <tr>
+                        <td>15/05/2024</td>
+                        <td>11:00</td>
+                        <td>Dr. Carlos Santos</td>
+                        <td>Neurologia</td>
+                        <td>Concluída</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="notifications" class="dashboard-section">
+            <h2>Notificações</h2>
+            <div class="notification-message">
+                <p><strong>João Silva:</strong> Tomou Metformina às 08:00</p>
+            </div>
+            <div class="notification-message">
+                <p><strong>Maria Oliveira:</strong> Tomou Levotiroxina às 07:30</p>
+            </div>
+            <div class="notification-message">
+                <p><strong>Carlos Santos:</strong> Tomou Losartana às 09:00</p>
+            </div>
+        </section>
+
+        <section id="patient-education" class="dashboard-section">
+            <h2>Educação do Paciente</h2>
+            <div class="patient-education">
+                <h3>Hipertensão Arterial</h3>
+                <p>Hipertensão arterial é uma condição comum em que a força do sangue contra as paredes das artérias é alta o suficiente para eventualmente causar problemas de saúde, como doenças cardíacas.</p>
+            </div>
+            <div class="patient-education">
+                <h3>Diabetes</h3>
+                <p>Diabetes é uma doença que ocorre quando seu nível de glicose no sangue, também chamado de açúcar no sangue, está muito alto. A glicose no sangue é sua principal fonte de energia e provém dos alimentos que você come.</p>
+            </div>
+        </section>
+
+        <section id="support" class="dashboard-section">
+            <h2>Suporte</h2>
+            <div class="support">
+                <h3>Contato com o Suporte</h3>
+                <p>Para entrar em contato com o suporte, ligue para 0800-123-456 ou envie um e-mail para suporte@clinmedvoice.com.</p>
+            </div>
+            <div class="support">
+                <h3>FAQs</h3>
+                <p>Visite nossa página de <a href="#">FAQs</a> para encontrar respostas para as perguntas mais frequentes.</p>
+            </div>
+        </section>
+
+        <button onclick="logout()">Sair</button>
+    </main>
+    <script>
+        function logout() {
+            window.location.href = 'index.html';
+        }
+
+        function showDashboard() {
+            const sections = document.querySelectorAll('.dashboard-section');
+            sections.forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById('dashboard-content').style.display = 'block';
+        }
+
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.dashboard-section');
+            sections.forEach(section => {
+                if (section.id === sectionId) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        }
+
+        // Initialize dashboard view
+        showDashboard();
+        showSection('scheduled-consultations');
+    </script>
+</body>
+</html>

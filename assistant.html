@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard</title>
+    <link rel="stylesheet" href="styles-dashboard.css">
+    <style>
+        .dashboard-section {
+            display: none;
+        }
+        .button {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .form-container {
+            text-align: center;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            width: 80%;
+            background-color: #f8f9fa;
+        }
+        .form-container input, .form-container select {
+            margin: 10px;
+            padding: 10px;
+            width: calc(100% - 40px);
+            max-width: 400px;
+        }
+        .notification-message {
+            text-align: left;
+            margin: 10px auto;
+            width: 80%;
+            background-color: #f8f9fa;
+            padding: 10px;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 onclick="showDashboard()">ClineMed Voice</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#" onclick="showSection('schedule-consultation')">Agendar Consulta</a></li>
+            <li><a href="#" onclick="showSection('scheduled-consultations')">Consultas Agendadas</a></li>
+            <li><a href="#" onclick="showSection('consultation-history')">Histórico de Consultas</a></li>
+            <li><a href="#" onclick="showSection('notifications')">Notificações</a></li>
+        </ul>
+    </nav>
+    <main>
+        <section id="dashboard-content" class="dashboard-section">
+            <h2>Bem-vindo ao ClineMed Voice</h2>
+            <p>Selecione uma opção no menu para continuar.</p>
+        </section>
+
+        <section id="schedule-consultation" class="dashboard-section">
+            <h2>Agendar Consulta</h2>
+            <div class="form-container">
+                <input type="text" id="patient-name" placeholder="Nome do Paciente">
+                <input type="date" id="consultation-date" placeholder="Data">
+                <input type="time" id="consultation-time" placeholder="Hora">
+                <input type="text" id="doctor-name" placeholder="Nome do Médico">
+                <select id="specialty">
+                    <option value="Cardiologia">Cardiologia</option>
+                    <option value="Dermatologia">Dermatologia</option>
+                    <option value="Neurologia">Neurologia</option>
+                </select>
+                <button class="button" onclick="scheduleConsultation()">Agendar</button>
+            </div>
+        </section>
+
+        <section id="scheduled-consultations" class="dashboard-section">
+            <h2>Consultas Agendadas</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Hora</th>
+                        <th>Médico</th>
+                        <th>Especialidade</th>
+                    </tr>
+                </thead>
+                <tbody id="consultations-table-body">
+                    <!-- Consultas agendadas padrão -->
+                    <tr>
+                        <td>10/06/2024</td>
+                        <td>10:00</td>
+                        <td>Dr. João Silva</td>
+                        <td>Cardiologia</td>
+                    </tr>
+                    <tr>
+                        <td>15/06/2024</td>
+                        <td>11:00</td>
+                        <td>Dra. Maria Oliveira</td>
+                        <td>Dermatologia</td>
+                    </tr>
+                    <tr>
+                        <td>20/06/2024</td>
+                        <td>13:00</td>
+                        <td>Dr. Carlos Santos</td>
+                        <td>Neurologia</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="consultation-history" class="dashboard-section">
+            <h2>Histórico de Consultas</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Hora</th>
+                        <th>Médico</th>
+                        <th>Especialidade</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>01/05/2024</td>
+                        <td>09:00</td>
+                        <td>Dr. João Silva</td>
+                        <td>Cardiologia</td>
+                        <td>Concluída</td>
+                    </tr>
+                    <tr>
+                        <td>10/05/2024</td>
+                        <td>10:00</td>
+                        <td>Dra. Maria Oliveira</td>
+                        <td>Dermatologia</td>
+                        <td>Cancelada</td>
+                    </tr>
+                    <tr>
+                        <td>15/05/2024</td>
+                        <td>11:00</td>
+                        <td>Dr. Carlos Santos</td>
+                        <td>Neurologia</td>
+                        <td>Concluída</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="notifications" class="dashboard-section">
+            <h2>Notificações</h2>
+            <div class="notification-message">
+                <p><strong>João Silva:</strong> Tomou Metformina às 08:00</p>
+            </div>
+            <div class="notification-message">
+                <p><strong>Maria Oliveira:</strong> Tomou Levotiroxina às 07:30</p>
+            </div>
+            <div class="notification-message">
+                <p><strong>Carlos Santos:</strong> Tomou Losartana às 09:00</p>
+            </div>
+        </section>
+
+        <button onclick="logout()">Sair</button>
+    </main>
+    <script>
+        function logout() {
+            window.location.href = 'index.html';
+        }
+
+        function showDashboard() {
+            const sections = document.querySelectorAll('.dashboard-section');
+            sections.forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById('dashboard-content').style.display = 'block';
+        }
+
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.dashboard-section');
+            sections.forEach(section => {
+                if (section.id === sectionId) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        }
+
+        function scheduleConsultation() {
+            const patientName = document.getElementById('patient-name').value;
+            const consultationDate = document.getElementById('consultation-date').value;
+            const consultationTime = document.getElementById('consultation-time').value;
+            const doctorName = document.getElementById('doctor-name').value;
+            const specialty = document.getElementById('specialty').value;
+
+            if (patientName && consultationDate && consultationTime && doctorName && specialty) {
+                const tableBody = document.getElementById('consultations-table-body');
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                    <td>${consultationDate}</td>
+                    <td>${consultationTime}</td>
+                    <td>${doctorName}</td>
+                    <td>${specialty}</td>
+                `;
+                tableBody.appendChild(newRow);
+                alert('Consulta agendada com sucesso!');
+                showSection('scheduled-consultations');
+            } else {
+                alert('Por favor, preencha todos os campos.');
+            }
+        }
+
+        // Initialize dashboard view
+        showDashboard();
+        showSection('scheduled-consultations');
+    </script>
+</body>
+</html>

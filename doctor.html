@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard</title>
+    <link rel="stylesheet" href="styles-dashboard.css">
+    <style>
+        #audio-recording, #reports-section, #patient-history-section, #notifications-section, #remote-monitoring-section {
+            text-align: center;
+        }
+        #transcription {
+            display: block;
+            margin: 0 auto;
+            width: 80%;
+        }
+        #success-message {
+            display: none;
+            color: green;
+            font-weight: bold;
+            text-align: center;
+        }
+        .button {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .patient-info, .notification-message {
+            text-align: left;
+            margin: 10px auto;
+            width: 80%;
+            background-color: #f8f9fa;
+            padding: 10px;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+        }
+        .chart-container {
+            width: 80%;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 onclick="showDashboard()">ClineMed Voice</h1>
+    </header>
+    <nav>
+        <ul id="nav-links">
+            <li><a href="#" onclick="showSection('audio-recording')">Iniciar Consulta</a></li>
+            <li><a href="#" onclick="showSection('reports-section')">Geração de Relatórios</a></li>
+            <li><a href="#" onclick="showSection('patient-history-section')">Histórico de Pacientes</a></li>
+            <li><a href="#" onclick="showSection('notifications-section')">Notificações</a></li>
+            <li><a href="#" onclick="showSection('remote-monitoring-section')">Monitoramento Remoto</a></li>
+        </ul>
+    </nav>
+    <main>
+        <section id="dashboard-content" class="dashboard-section">
+            <section>
+                <h2>Resumo das Consultas</h2>
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <h3>Total de Consultas</h3>
+                        <p>25</p>
+                    </div>
+                    <div class="card">
+                        <h3>Consultas de Hoje</h3>
+                        <p>5</p>
+                    </div>
+                    <div class="card">
+                        <h3>Relatórios Pendentes</h3>
+                        <p>3</p>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <h2>Próximas Consultas</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Hora</th>
+                            <th>Paciente</th>
+                            <th>Motivo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>10:00</td>
+                            <td>João Silva</td>
+                            <td>Retorno</td>
+                        </tr>
+                        <tr>
+                            <td>11:00</td>
+                            <td>Maria Oliveira</td>
+                            <td>Consulta de rotina</td>
+                        </tr>
+                        <tr>
+                            <td>13:00</td>
+                            <td>Carlos Santos</td>
+                            <td>Acompanhamento</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </section>
+        
+        <!-- Gravação de Áudio Section -->
+        <section id="audio-recording" class="dashboard-section" style="display:none;">
+            <h2>Gravação de Áudio</h2>
+            <button id="start-record-btn" onclick="startRecording()">Iniciar Consulta</button>
+            <button id="stop-record-btn" onclick="stopRecording()" disabled>Finalizar Consulta</button>
+            <textarea id="transcription" rows="10" cols="100" placeholder="A transcrição da consulta aparecerá aqui..."></textarea>
+            <div id="success-message">Consulta salva com sucesso!</div>
+        </section>
+
+        <!-- Geração de Relatórios Section -->
+        <section id="reports-section" class="dashboard-section" style="display:none;">
+            <h2>Geração de Relatórios</h2>
+            <button class="button" onclick="generateReport()">Gerar Novo Relatório</button>
+            <button class="button" onclick="viewReports()">Ver Relatórios Existentes</button>
+            <div id="reports-content">
+                <!-- Conteúdo de relatórios gerados será exibido aqui -->
+            </div>
+        </section>
+
+        <!-- Histórico de Pacientes Section -->
+        <section id="patient-history-section" class="dashboard-section" style="display:none;">
+            <h2>Histórico de Pacientes</h2>
+            <div class="patient-info">
+                <p><strong>Nome:</strong> João Silva</p>
+                <p><strong>Idade:</strong> 45 anos</p>
+                <p><strong>Histórico:</strong> Hipertensão, Diabetes</p>
+                <p><strong>Última consulta:</strong> 20/04/2024</p>
+                <p><strong>Medicações:</strong> Metformina, Losartana</p>
+            </div>
+            <div class="patient-info">
+                <p><strong>Nome:</strong> Maria Oliveira</p>
+                <p><strong>Idade:</strong> 60 anos</p>
+                <p><strong>Histórico:</strong> Hipotireoidismo</p>
+                <p><strong>Última consulta:</strong> 15/05/2024</p>
+                <p><strong>Medicações:</strong> Levotiroxina</p>
+            </div>
+        </section>
+
+        <!-- Notificações Section -->
+        <section id="notifications-section" class="dashboard-section" style="display:none;">
+            <h2>Notificações</h2>
+            <div class="notification-message">
+                <p><strong>João Silva:</strong> Tomou Metformina às 08:00</p>
+            </div>
+            <div class="notification-message">
+                <p><strong>Maria Oliveira:</strong> Tomou Levotiroxina às 07:30</p>
+            </div>
+        </section>
+
+        <!-- Monitoramento Remoto Section -->
+        <section id="remote-monitoring-section" class="dashboard-section" style="display:none;">
+            <h2>Monitoramento Remoto</h2>
+            <div class="chart-container">
+                <canvas id="glucose-chart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="bp-chart"></canvas>
+            </div>
+        </section>
+
+        <button id="logout-btn" onclick="logout()">Sair</button>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        function logout() {
+            window.location.href = 'index.html';
+        }
+
+        function showDashboard() {
+            const sections = document.querySelectorAll('.dashboard-section');
+            sections.forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById('dashboard-content').style.display = 'block';
+        }
+
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.dashboard-section');
+            sections.forEach(section => {
+                if (section.id === sectionId) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+            if (sectionId === 'remote-monitoring-section') {
+                loadCharts();
+            }
+        }
+
+        function generateReport() {
+            const reportsContent = document.getElementById('reports-content');
+            const report = document.createElement('div');
+            report.innerHTML = '<p>Novo relatório gerado em ' + new Date().toLocaleString() + '</p>';
+            reportsContent.appendChild(report);
+        }
+
+        function viewReports() {
+            const reportsContent = document.getElementById('reports-content');
+            reportsContent.innerHTML = '<p>Exibindo relatórios existentes...</p>';
+        }
+
+        function loadCharts() {
+            const glucoseCtx = document.getElementById('glucose-chart').getContext('2d');
+            const glucoseChart = new Chart(glucoseCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+                    datasets: [{
+                        label: 'Níveis de Glicose',
+                        data: [90, 110, 105, 120, 130, 115, 100],
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            const bpCtx = document.getElementById('bp-chart').getContext('2d');
+            const bpChart = new Chart(bpCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+                    datasets: [{
+                        label: 'Pressão Arterial Sistólica',
+                        data: [120, 125, 130, 135, 140, 130, 125],
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        fill: true
+                    },
+                    {
+                        label: 'Pressão Arterial Diastólica',
+                        data: [80, 82, 85, 83, 88, 85, 82],
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // Speech recognition functionality
+        const startRecordBtn = document.getElementById('start-record-btn');
+        const stopRecordBtn = document.getElementById('stop-record-btn');
+        const transcription = document.getElementById('transcription');
+        const successMessage = document.getElementById('success-message');
+
+        let recognition;
+        if ('webkitSpeechRecognition' in window) {
+            recognition = new webkitSpeechRecognition();
+        } else if ('SpeechRecognition' in window) {
+            recognition = new SpeechRecognition();
+        }
+
+        if (recognition) {
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.lang = 'pt-BR';
+
+            recognition.onstart = function() {
+                startRecordBtn.disabled = true;
+                stopRecordBtn.disabled = false;
+                transcription.placeholder = 'Iniciando transcrição...';
+            };
+
+            recognition.onresult = function(event) {
+                let interimTranscripts = '';
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    const transcript = event.results[i][0].transcript;
+                    if (event.results[i].isFinal) {
+                        transcription.value += transcript + '\n';
+                    } else {
+                        interimTranscripts += transcript;
+                    }
+                }
+                transcription.value += interimTranscripts;
+            };
+
+            recognition.onerror = function(event) {
+                console.error(event.error);
+                stopRecording();
+            };
+
+            recognition.onend = function() {
+                stopRecording();
+            };
+        }
+
+        function startRecording() {
+            recognition.start();
+        }
+
+        function stopRecording() {
+            recognition.stop();
+            startRecordBtn.disabled = false;
+            stopRecordBtn.disabled = true;
+            transcription.placeholder = 'A transcrição da consulta aparecerá aqui...';
+            successMessage.style.display = 'block';
+        }
+
+        // Initialize dashboard view
+        showDashboard();
+    </script>
+</body>
+</html>
